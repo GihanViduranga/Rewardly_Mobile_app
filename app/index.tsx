@@ -1,12 +1,38 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import "./../global.css";
 import { useRouter } from "expo-router";
+import React, { useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
+import LottieView from "lottie-react-native";
 
 const TopImage = require("./../assets/images/GiftBoxCard.png");
 const BottomImage = require("./../assets/images/RewardSideIMG.png");
 
 const Index = () => {
   const router = useRouter();
+  const { user, loading } = useAuth();
+
+  useEffect(() => {
+    if (!loading && user) {
+      router.push("/");
+    } else if (!loading && !user) {
+      router.push("/login");
+    }
+  }, [user, loading]);
+
+  if (loading) {
+    return (
+      <View className="flex-1 justify-center items-center bg-white">
+      <LottieView
+        source={require("../assets/loading/loading.json")}
+        autoPlay
+        loop
+        style={{ width: 120, height: 120 }}
+      />
+      <Text className="mt-4 text-lg text-gray-600">Loading...</Text>
+    </View>
+    );
+  }
 
   return (
     <View className="flex-1 bg-yellow-800" style={{ justifyContent: 'space-between', alignItems: 'center', paddingVertical: 40 }}>
@@ -31,11 +57,13 @@ const Index = () => {
         />
         
       </View>
-      <View className='mb-3 top-[430px]'>
-        <Text className="text-center mt-2 color-white text-1xl font-semibold">Smart way to save your Reward Cards</Text>
+      <View className="mb-3 top-[40px]">
+        <Text className="text-center mt-2 text-white text-xl font-semibold">
+          Smart way to save your Reward Cards
+        </Text>
       </View>
       {/* Bottom Button */}
-      <View className="w-full mt-96 justify-center items-center">
+      <View className="w-full top-[50px] justify-center items-center">
         <TouchableOpacity
           onPress={() => router.push("/register")}
           className="bg-amber-500 px-8 py-5 rounded-full"
@@ -57,10 +85,10 @@ const Index = () => {
       </View>
         
       
-      <View>
+      <View className="-z-2 top-20">
         <Image
           source={BottomImage}
-          className="w-[500px] h-[500px] shadow-lg rounded-full top-[-30px] rotate-[-30deg]"
+          className="w-[500px] h-[300px] shadow-lg rounded-full rotate-[-30deg]"
           resizeMode="contain"
         />
       </View>
