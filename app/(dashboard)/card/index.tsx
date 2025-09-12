@@ -126,11 +126,11 @@ export interface Card {
     return (
         <View className="flex-1 bg-gray-100">
             {/* Header */}
-            <View className="flex-row justify-between items-center p-5 bg-white shadow-sm">
+            <View className="flex-row justify-between items-center p-5 mt-9 bg-white shadow-sm">
                 <View>
                 <Text className="text-xl font-bold">Card Wallet</Text>
                 </View>
-                <TouchableOpacity 
+                <TouchableOpacity
                 className="w-10 h-10 rounded-full bg-purple-100 items-center justify-center"
                 onPress={handleAddCard}
                 >

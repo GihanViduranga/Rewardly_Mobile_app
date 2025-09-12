@@ -99,7 +99,7 @@ const CardFormScreen = () => {
     return (
         <View className="flex-1 bg-gray-100">
         {/* Header */}
-        <View className="flex-row items-center p-5 bg-white shadow-sm mt-8">
+        <View className="flex-row items-center p-5 bg-white shadow-sm mt-9">
             <TouchableOpacity
                 onPress={() => navigation.goBack()}
                 className="mr-4"
