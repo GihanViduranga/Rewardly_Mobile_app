@@ -5,15 +5,15 @@ import { MaterialIcons } from '@expo/vector-icons'
 
 
 const tabs = [
-    {label: 'Home', name: 'home',icon: 'home'},
-    {label: 'Cards', name: 'cards',icon: 'credit-card'},
+    {label: 'Home', name: 'home', icon: 'home'},
+    {label: 'Card', name: 'card', icon: 'card-giftcard'},
 ] as const
 
 const DashboardLayout = () => {
     const router = useRouter();
     return (
         <Tabs screenOptions={{
-            tabBarActiveTintColor: "#007AFF",
+            tabBarActiveTintColor: "#009432",
             tabBarInactiveTintColor: "#8E8E93",
             tabBarLabelStyle: { fontSize: 12, fontWeight: '500' },
             tabBarStyle: {
