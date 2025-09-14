@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { useRouter } from 'expo-router';
+import { getCards } from '@/services/cardService';
 
 // Import the Card interface
 export interface Card {
@@ -28,23 +29,21 @@ export interface Card {
     }, [isFocused]);
 
     const loadCards = async () => {
-        
+        try{
+            const data = await getCards();
+            setCards(data);
+            setLoading(false);
+        }catch(error){
+            console.log("Error loading cards", error);
+        }
     };
 
     const cardTypes = {
         PonintsCard: { color: '#1a1f71', icon: 'card' },
-        GiftCard: { color: '#eb001b', icon: 'card' },
+        GiftCard: { color: '#009432', icon: 'card' },
         LoteryCard: { color: '#006fcf', icon: 'card' },
         Other: { color: '#5c6bc0', icon: 'card' },
     };
-
-    // const formatCardNumber = (number: string) => {
-    //     // Remove all non-digit characters
-    //     const digits = number.replace(/\D/g, '');
-        
-    //     // Format as XXXX XXXX XXXX XXXX
-    //     return digits.replace(/(\d{4})(?=\d)/g, '$1 ');
-    // };
 
     const handleCardPress = (card: Card) => {
         setSelectedCard(card.id === selectedCard?.id ? null : card);
@@ -97,7 +96,7 @@ export interface Card {
 
             {isSelected && (
             <View className="flex-row justify-between items-center mt-2 mb-6">
-                <TouchableOpacity 
+                <TouchableOpacity
                 className="flex-row items-center bg-red-100 px-4 py-2 rounded-full"
                 onPress={() => handleDeleteCard(card)}
                 >
@@ -131,14 +130,14 @@ export interface Card {
                 <Text className="text-xl font-bold">Card Wallet</Text>
                 </View>
                 <TouchableOpacity
-                className="w-10 h-10 rounded-full bg-purple-100 items-center justify-center"
+                className="w-10 h-10 rounded-full bg-green-200 items-center justify-center"
                 onPress={handleAddCard}
                 >
-                <Ionicons name="add" size={24} color="#9333ea" />
+                <Ionicons name="add" size={24} color="#009432" />
                 </TouchableOpacity>
             </View>
 
-            <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
+            <ScrollView showsVerticalScrollIndicator={true} className="flex-1">
                 <View className="p-5">
                 {cards.length === 0 ? (
                     <View className="items-center justify-center py-20">
@@ -150,7 +149,7 @@ export interface Card {
                         Add your first card to get started
                     </Text>
                     <TouchableOpacity 
-                        className="bg-purple-600 px-6 py-3 rounded-full"
+                        className="bg-green-900 px-6 py-3 rounded-full"
                         onPress={handleAddCard}
                     >
                         <Text className="text-white font-medium">Add Your First Card</Text>
@@ -166,6 +165,7 @@ export interface Card {
                 )}
                 </View>
             </ScrollView>
+            
         </View>
     );
 };

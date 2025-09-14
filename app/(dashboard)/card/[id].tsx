@@ -22,7 +22,7 @@ const CardFormScreen = () => {
   });
 
   const cardTypes = [
-    { id: 'Ponints Card', name: 'Ponints Card', color: '#1a1f71' },
+    { id: 'Points Card', name: 'Points Card', color: '#1a1f71' },
     { id: 'Gift Card', name: 'Gift Card', color: '#eb001b' },
     { id: 'Lotery Card', name: 'Lotery Card', color: '#006fcf' },
     { id: 'Other', name: 'Other', color: '#ff6000' },
@@ -83,6 +83,7 @@ const CardFormScreen = () => {
         // };
         // saveCard(newCard);
         
+        
         Alert.alert(
             'Success', 
             'Card added successfully!',
@@ -114,7 +115,7 @@ const CardFormScreen = () => {
             showsVerticalScrollIndicator={false}
         >
             {/* Card Preview */}
-            <View className="w-full h-48 rounded-2xl p-6 mb-8 shadow-lg bg-purple-600">
+            <View className="w-full h-48 rounded-2xl p-6 mb-8 shadow-lg bg-green-900">
             <View className="flex-row justify-between items-start">
                 <View>
                     <Text className="text-white text-xs opacity-80">Card Name</Text>
@@ -209,7 +210,7 @@ const CardFormScreen = () => {
                     <TouchableOpacity
                     key={type.id}
                     className={`px-4 py-2 rounded-full mr-2 mb-2 ${
-                        cardData.type === type.id ? 'bg-purple-600' : 'bg-gray-200'
+                        cardData.type === type.id ? 'bg-green-900' : 'bg-gray-200'
                     }`}
                     onPress={() => setCardData({...cardData, type: type.id})}
                     >
@@ -223,7 +224,7 @@ const CardFormScreen = () => {
 
             {/* Submit Button */}
             <TouchableOpacity
-                className="bg-purple-600 p-4 rounded-lg items-center mt-2"
+                className="bg-green-900 p-4 rounded-lg items-center mt-2"
                 onPress={handleSubmit}
             >
                 <Text className="text-white font-bold text-lg">Add Card</Text>
