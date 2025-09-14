@@ -34,7 +34,7 @@ const Login = () => {
 
     return (
         <View className="flex-1 justify-center items-center bg-white px-6">
-        <Text className="text-3xl font-bold mb-6 text-gray-800">Login</Text>
+        <Text className="text-4xl font-bold mb-6 text-green-800">Login</Text>
 
         <TextInput
             className="w-full h-12 border border-gray-300 rounded-lg px-4 mb-4 text-base text-black"
@@ -54,7 +54,7 @@ const Login = () => {
         />
 
         <TouchableOpacity
-            className="w-full bg-blue-500 py-3 rounded-lg items-center"
+            className="w-full bg-green-500 py-3 rounded-lg items-center"
             onPress={handleLogin}
         >
             <Text className="text-white font-bold text-lg">Login</Text>

@@ -1,16 +1,18 @@
-import { addDoc, collection } from "firebase/firestore";
 import api from "./config/api";
-import { db } from "@/firebase";
 import { Card } from "@/types/card";
+import { auth } from '@/firebase';
 
 export const getCards = async () => {
-    const response = await api.get("/Card");
+    const user = auth.currentUser;
+    if (!user) throw new Error("User not logged in");
+    const response = await api.get(`/Card?userId=${user.uid}`);
     return response.data;
 }
 
-export const cardRef = collection(db, "Card");
 export const saveCard = async (card: Card) => {
-    const response = await api.post("/Card", card);
+    const user = auth.currentUser;
+    if (!user) throw new Error("User not logged in");
+    const response = await api.post("/Card", { ...card, userId: user.uid });
     return response.data;
 }
 
@@ -19,7 +21,9 @@ export const deleteCard = async (id: string) => {
 }
 
 export const updateCard = async (id: string, card: Card) => {
-    await api.put(`/Card/${id}`, card);
+    const user = auth.currentUser;
+    if (!user) throw new Error("User not logged in");
+    await api.put(`/Card/${id}`, { ...card, userId: user.uid });
 }
 
 export const getCard = async (id: string) => {

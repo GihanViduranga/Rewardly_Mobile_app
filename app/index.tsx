@@ -5,20 +5,30 @@ import React, { useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import LottieView from "lottie-react-native";
 
-const TopImage = require("./../assets/images/GiftBoxCard.png");
+const TopImage = require("./../assets/images/GiftCard.png");
 const BottomImage = require("./../assets/images/RewardSideIMG.png");
 
 const Index = () => {
   const router = useRouter();
   const { user, loading } = useAuth();
 
+  // useEffect(() => {
+  //   if (!loading && user) {
+  //     router.push("/");
+  //   } else if (!loading && !user) {
+  //     router.push("/login");
+  //   }
+  // }, [user, loading]);
+
   useEffect(() => {
-    if (!loading && user) {
-      router.push("/");
-    } else if (!loading && !user) {
-      router.push("/login");
+  if (!loading) {
+    if (user) {
+      // user exists → send them to login
+      router.replace("/login");
     }
-  }, [user, loading]);
+    // if no user → stay here on "/"
+  }
+}, [user, loading]);
 
   if (loading) {
     return (
@@ -35,8 +45,8 @@ const Index = () => {
   }
 
   return (
-    <View className="flex-1 bg-yellow-800" style={{ justifyContent: 'space-between', alignItems: 'center', paddingVertical: 40 }}>
-      <View className="absolute top-[-100px] w-[500px] h-[600px] bg-amber-500 rounded-full shadow-lg" />
+    <View className="flex-1 bg-green-800" style={{ justifyContent: 'space-between', alignItems: 'center', paddingVertical: 40 }}>
+      <View className="absolute top-[-100px] w-[500px] h-[600px] bg-green-600 rounded-full shadow-lg" />
       <View className="absolute top-0 left-1/2" style={{ transform: [{ translateX: -250 }], zIndex: -1 }}>
       </View>
       {/* Top: Title and Subtitle */}
@@ -66,7 +76,7 @@ const Index = () => {
       <View className="w-full top-[50px] justify-center items-center">
         <TouchableOpacity
           onPress={() => router.push("/register")}
-          className="bg-amber-500 px-8 py-5 rounded-full"
+          className="bg-blue-500 px-8 py-5 rounded-full"
           style={{
             shadowColor: "#000",
             shadowOffset: {
@@ -78,7 +88,7 @@ const Index = () => {
             elevation: 5,
           }}
           activeOpacity={0.8}>
-          <Text className="text-black font-semibold text-2xl drop-shadow-lg">
+          <Text className="text-white font-semibold text-2xl drop-shadow-lg">
             Get Started
           </Text>
         </TouchableOpacity>

@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Card } from '../../types/card';
 import { router } from 'expo-router';
+import LottieView from 'lottie-react-native';
+import { useIsFocused } from '@react-navigation/native';
 
 const cardTypes = {
     PonintsCard: { color: '#1a1f71', icon: 'card' },
@@ -14,18 +16,37 @@ const cardTypes = {
 
 const Home = () => {
     const [cards, setCards] = useState<Card[]>([]);
+    const [loading, setLoading] = useState(true);
+    const isFocused = useIsFocused();
 
     useEffect(() => {
+        if (!isFocused) return;
         const loadCards = async () => {
         try {
             const data = await getCards();
             setCards(data);
         } catch (error) {
             console.log('Error loading cards', error);
+        } finally {
+            setLoading(false);
         }
         };
         loadCards();
-    }, []);
+    }, [isFocused]);
+
+    if (loading) {
+    return (
+        <View className="flex-1 justify-center items-center bg-white">
+            <LottieView
+            source={require('../../assets/loading/loading.json')}
+            autoPlay
+            loop
+            style={{ width: 200, height: 200 }}
+            />
+            <Text className="mt-4 text-lg text-gray-700">Loading cards...</Text>
+        </View>
+        );
+    }
 
     const CardItem = ({ card }: { card: Card }) => {
         const cardInfo = cardTypes[card.type as keyof typeof cardTypes] || cardTypes.Other;
