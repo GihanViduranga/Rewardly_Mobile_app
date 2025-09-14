@@ -39,7 +39,7 @@ export interface Card {
     };
 
     const cardTypes = {
-        PonintsCard: { color: '#1a1f71', icon: 'card' },
+        PonintsCard: { color: '#784630', icon: 'card' },
         GiftCard: { color: '#009432', icon: 'card' },
         LoteryCard: { color: '#006fcf', icon: 'card' },
         Other: { color: '#5c6bc0', icon: 'card' },
@@ -155,7 +155,7 @@ export interface Card {
                     <Text className="text-gray-400 text-center mb-6">
                         Add your first card to get started
                     </Text>
-                    <TouchableOpacity 
+                    <TouchableOpacity
                         className="bg-green-900 px-6 py-3 rounded-full"
                         onPress={handleAddCard}
                     >

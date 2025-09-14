@@ -23,7 +23,7 @@ const CardFormScreen = () => {
     });
 
     const cardTypes = [
-        { id: 'Points Card', name: 'Points Card', color: '#1a1f71' },
+        { id: 'Points Card', name: 'Points Card', color: '#784630' },
         { id: 'Gift Card', name: 'Gift Card', color: '#eb001b' },
         { id: 'Lotery Card', name: 'Lotery Card', color: '#006fcf' },
         { id: 'Other', name: 'Other', color: '#ff6000' },
@@ -47,20 +47,6 @@ const CardFormScreen = () => {
     loadCard();
     }, [id]);
 
-    // if(cardData.number === '' || cardData.expiry === '' || cardData.name === '') {
-    //     Alert.alert(
-    //         'Error',
-    //         'Please fill in all the fields',
-    //         [
-    //             { text: 'OK' }
-    //         ]
-    //     )
-    // }
-
-
-    
-
-
     const handleSubmit = async () => {
         const newCard: Card = {
             id: Date.now().toString(),
@@ -71,6 +57,14 @@ const CardFormScreen = () => {
         };
 
         if(isNew && cardData.number === newCard.number) {
+            const existingCards = await getCards();
+            const duplicate = existingCards.find((c: { number: string }) => c.number === newCard.number);
+
+            if (duplicate) {
+                Alert.alert('Error', 'Card number already exists!');
+                return;
+            }
+
             await saveCard(newCard);
             Alert.alert(
             'Success',
@@ -104,7 +98,7 @@ const CardFormScreen = () => {
             <Text className="text-xl font-bold">Add New Card</Text>
         </View>
 
-        <ScrollView 
+        <ScrollView
             className="flex-1 p-5"
             showsVerticalScrollIndicator={false}
         >
