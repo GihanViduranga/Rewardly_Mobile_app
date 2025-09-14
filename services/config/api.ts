@@ -2,7 +2,7 @@ import axios from "axios";
 
 const api = axios.create({
     baseURL:"https://689db599ce755fe69789a2ed.mockapi.io/api/v1",
-    timeout: 5000,
+    timeout: 1000,
 })
 
 api.interceptors.request.use(function (config) {

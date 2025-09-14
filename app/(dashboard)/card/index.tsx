@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { useRouter } from 'expo-router';
-import { getCards } from '@/services/cardService';
+import { deleteCard, getCards } from '@/services/cardService';
 
 // Import the Card interface
 export interface Card {
@@ -54,7 +54,13 @@ export interface Card {
     };
 
     const handleDeleteCard = async (card: Card) => {
-        
+        const responce = await deleteCard(card.id);
+        Alert.alert("Card deleted successfully");
+        loadCards();
+    };
+
+    const handleEditCard = (card: Card) => {
+        router.push(`/card/${card.id}`);
     };
 
     const CardItem = ({ card }: { card: Card }) => {
@@ -76,9 +82,7 @@ export interface Card {
             </View>
             
             <View className="mt-8">
-                <Text className="text-white text-lg font-semibold tracking-wider">
-                {}
-                </Text>
+                <Text className="text-white text-lg font-semibold tracking-wider">{card.number}</Text>
             </View>
             
             <View className="flex-row justify-between items-center mt-6">
@@ -104,7 +108,10 @@ export interface Card {
                 <Text className="text-red-600 ml-2">Delete</Text>
                 </TouchableOpacity>
                 
-                <TouchableOpacity className="flex-row items-center bg-blue-100 px-4 py-2 rounded-full">
+                <TouchableOpacity
+                className="flex-row items-center bg-blue-100 px-4 py-2 rounded-full"
+                onPress={() => handleEditCard(card)}
+                >
                 <Ionicons name="pencil" size={16} color="#2563eb" />
                 <Text className="text-blue-600 ml-2">Edit</Text>
                 </TouchableOpacity>

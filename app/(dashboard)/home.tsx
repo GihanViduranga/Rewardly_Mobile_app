@@ -155,7 +155,7 @@ const Home = () => {
             ) : (
             <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
                 {cards.map((card) => (
-                <CardItem key={card.id} card={card} />
+                <CardItem key={card.number} card={card} />
                 ))}
             </ScrollView>
             )}

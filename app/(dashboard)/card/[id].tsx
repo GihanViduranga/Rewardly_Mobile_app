@@ -2,6 +2,8 @@ import { View, Text, TextInput, TouchableOpacity, ScrollView, SafeAreaView, Aler
 import React, { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { useLocalSearchParams } from 'expo-router';
+import { getCards, saveCard, updateCard } from '@/services/cardService';
 
 export interface Card {
     id: string;
@@ -12,80 +14,66 @@ export interface Card {
 }
 
 const CardFormScreen = () => {
-  const navigation = useNavigation();
-  const [cardData, setCardData] = useState({
-    name: '',
-    number: '',
-    expiry: '',
-    cvv: '',
-    type: 'Visa'
-  });
+    const navigation = useNavigation();
+    const [cardData, setCardData] = useState({
+        name: '',
+        number: '',
+        expiry: '',
+        type: 'Points Card'
+    });
 
-  const cardTypes = [
-    { id: 'Points Card', name: 'Points Card', color: '#1a1f71' },
-    { id: 'Gift Card', name: 'Gift Card', color: '#eb001b' },
-    { id: 'Lotery Card', name: 'Lotery Card', color: '#006fcf' },
-    { id: 'Other', name: 'Other', color: '#ff6000' },
-  ];
+    const cardTypes = [
+        { id: 'Points Card', name: 'Points Card', color: '#1a1f71' },
+        { id: 'Gift Card', name: 'Gift Card', color: '#eb001b' },
+        { id: 'Lotery Card', name: 'Lotery Card', color: '#006fcf' },
+        { id: 'Other', name: 'Other', color: '#ff6000' },
+    ];
 
-//   const formatCardNumber = () => {
-//     // Remove all non-digit characters
-//     const digits = cardData.number.replace(/\D/g, '');
+    const {id} = useLocalSearchParams<{id?: string}>();
+    const {number} = useLocalSearchParams<{number?: string}>();
+    const isNew = !id || id === 'new';
+
     
-//     // Format as XXXX XXXX XXXX XXXX
-//     return digits.replace(/(\d{4})(?=\d)/g, '$1 ');
-//   };
+    React.useEffect(() => {
+    const loadCard = async () => {
+        if (!isNew && id) {
+        const existingCards = await getCards();
+        const card = existingCards.find((c: { id: string; }) => c.id === id);
+        if (card) {
+            setCardData(card);
+        }
+        }
+    };
+    loadCard();
+    }, [id]);
 
-//   const formatExpiryDate = () => {
-//     // // Remove all non-digit characters
-//     const digits = cardData.expiry.replace(/\D/g, '');
+    // if(cardData.number === '' || cardData.expiry === '' || cardData.name === '') {
+    //     Alert.alert(
+    //         'Error',
+    //         'Please fill in all the fields',
+    //         [
+    //             { text: 'OK' }
+    //         ]
+    //     )
+    // }
+
+
     
-//     // Format as MM/YY
-//     if (digits.length <= 2) {
-//       return digits;
-//     } else {
-//       return digits.substring(0, 2) + '/' + digits.substring(2, 4);
-//     }
-//   };
 
-//   const validateForm = () => {
-//     if (!cardData.name.trim()) {
-//       Alert.alert('Error', 'Please enter card holder name');
-//       return false;
-//     }
 
-//     if (cardData.number.replace(/\s/g, '').length < 16) {
-//       Alert.alert('Error', 'Please enter a valid card number');
-//       return false;
-//     }
+    const handleSubmit = async () => {
+        const newCard: Card = {
+            id: Date.now().toString(),
+            name: cardData.name,
+            number: cardData.number,
+            expiry: cardData.expiry,
+            type: cardData.type
+        };
 
-//     if (!cardData.expiry.includes('/') || cardData.expiry.length !== 5) {
-//       Alert.alert('Error', 'Please enter a valid expiry date (MM/YY)');
-//       return false;
-//     }
-
-//     if (cardData.cvv.length < 3) {
-//       Alert.alert('Error', 'Please enter a valid CVV');
-//       return false;
-//     }
-
-//     return true;
-//   };
-
-    const handleSubmit = () => {
-        // TODO: Implement actual card saving to storage/API
-        // const newCard: Card = {
-        //   id: Date.now().toString(),
-        //   name: cardData.name,
-        //   number: cardData.number,
-        //   expiry: cardData.expiry,
-        //   type: cardData.type
-        // };
-        // saveCard(newCard);
-        
-        
-        Alert.alert(
-            'Success', 
+        if(isNew && cardData.number === newCard.number) {
+            await saveCard(newCard);
+            Alert.alert(
+            'Success',
             'Card added successfully!',
             [
             {
@@ -94,7 +82,13 @@ const CardFormScreen = () => {
             }
             ]
         );
-        
+        } else {
+            await updateCard(id!, newCard);
+            Alert.alert( 'Success', 'Card updated successfully!',
+                [
+                    { text: 'OK', onPress: () => navigation.goBack() }
+                ] );
+            }
     };
 
     return (
@@ -153,7 +147,7 @@ const CardFormScreen = () => {
             
             {/* Card Holder Name */}
             <View className="mb-5">
-                <Text className="text-gray-700 mb-2">Card Holder Name</Text>
+                <Text className="text-gray-700 mb-2">Card Name</Text>
                 <TextInput
                 className="border border-gray-300 rounded-lg p-4"
                 placeholder="Enter full name"
@@ -170,7 +164,8 @@ const CardFormScreen = () => {
                 placeholder="1234 5678 9012 3456"
                 keyboardType="numeric"
                 maxLength={19}
-                onChangeText={(text) => setCardData({...cardData, number: text.replace(/\s/g, '')})}
+                value={cardData.number}
+                onChangeText={(text) => setCardData({...cardData, number: text})}
                 />
             </View>
 
@@ -186,20 +181,6 @@ const CardFormScreen = () => {
                     onChangeText={(text) => setCardData({...cardData, expiry: text})}
                 />
                 </View>
-
-                {/* CVV */}
-                {/* <View className="w-2/5">
-                <Text className="text-gray-700 mb-2">CVV</Text>
-                <TextInput
-                    className="border border-gray-300 rounded-lg p-4"
-                    placeholder="123"
-                    keyboardType="numeric"
-                    maxLength={4}
-                    secureTextEntry={true}
-                    value={cardData.cvv}
-                    onChangeText={(text) => setCardData({...cardData, cvv: text})}
-                />
-                </View> */}
             </View>
 
             {/* Card Type Selection */}
@@ -227,7 +208,7 @@ const CardFormScreen = () => {
                 className="bg-green-900 p-4 rounded-lg items-center mt-2"
                 onPress={handleSubmit}
             >
-                <Text className="text-white font-bold text-lg">Add Card</Text>
+                <Text className="text-white font-bold text-lg">{isNew ? "Add Card" : "Update Card"}</Text>
             </TouchableOpacity>
             </View>
 

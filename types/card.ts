@@ -1,5 +1,5 @@
 export interface Card {
-    id: string;
+    //id: string;
     name: string;
     number: string;
     expiry: string;
