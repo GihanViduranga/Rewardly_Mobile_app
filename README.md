@@ -1,51 +1,62 @@
-# Welcome to your Expo app 👋
+# 🎉 Rewardly App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+[![React Native](https://img.shields.io/badge/React%20Native-61DAFB?logo=react&logoColor=white)](https://reactnative.dev/)
+[![Expo](https://img.shields.io/badge/Expo-000000?logo=expo&logoColor=white)](https://expo.dev/)
+[![Firebase](https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&logoColor=black)](https://firebase.google.com/)
 
-## Get started
+**Rewardly** is a mobile application built with **React Native** and **Expo**, developed as my **Advanced Mobile Development Final Project**. The app helps users manage, track, and redeem rewards through an intuitive interface.
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## 📱 Features
+- User registration and login
+- Password reset functionality
+- Dashboard to view rewards and points
+- Add, track, and redeem rewards
+- Smooth and responsive UI
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## 💻 Technologies Used
+- **React Native**
+- **Expo**
+- **Firebase** (Authentication & Firestore)
+- **JavaScript / ES6**
+- **Tailwind CSS** (for styling)
 
-In the output, you'll find options to open the app in a
+---
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## ⚙️ Setup Instructions
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### 1. Clone the Repository
+bash
+git clone https://github.com/YourUsername/rewardly.git
+cd rewardly
 
-## Get a fresh project
+2. Install Dependencies
+npm install
 
-When you're ready, run:
+or
 
-```bash
-npm run reset-project
-```
+yarn install
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+3. Configure Firebase
 
-## Learn more
+Create a Firebase project at Firebase Console
 
-To learn more about developing your project with Expo, look at the following resources:
+Enable Authentication (Email/Password)
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Enable Firestore Database
 
-## Join the community
+Copy your Firebase config and replace in firebaseConfig.js:
 
-Join our community of developers creating universal apps.
+4. Run the App
+npx expo start
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
-"# Rewardly_Mobile_app" 
+Open Expo Dev Tools in your browser.
+
+Scan the QR code with Expo Go or run on an emulator.
+
+🔗 Links
+
+YouTube Demo: https://youtu.be/TmWCoCjUTjE?si=TnMyMkOaX3L_Cdnx
