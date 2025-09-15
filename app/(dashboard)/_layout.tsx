@@ -7,7 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 const tabs = [
     {label: 'Home', name: 'home', icon: 'home'},
     {label: 'Card', name: 'card', icon: 'card-giftcard'},
-    {label: 'Profile', name: 'Profile', icon: 'person'},
+    {label: 'Setting', name: 'Setting', icon: 'settings'},
 ] as const
 
 const DashboardLayout = () => {
