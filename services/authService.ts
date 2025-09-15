@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updatePassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, EmailAuthProvider, getAuth, reauthenticateWithCredential, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updatePassword } from "firebase/auth";
 import { auth } from "../firebase";
 
 export const register = async (email: string, password: string) => {
@@ -25,15 +25,28 @@ export const sendResetPassword = async (email: string) => {
     }
 };
 
-export const changePassword = async (newPassword: string) => {
+export const changePassword = async (currentPassword: string, newPassword: string) => {
     const auth = getAuth();
     const user = auth.currentUser;
+
+    if (!user) {
+        alert("User not logged in");
+        return;
+    }
+
     try {
-        if (!user) throw new Error("User not logged in");
+        // Create credential with current password
+        const credential = EmailAuthProvider.credential(user.email!, currentPassword);
+
+        // Re-authenticate
+        await reauthenticateWithCredential(user, credential);
+
+        // Update password
         await updatePassword(user, newPassword);
+
         alert("Password updated successfully!");
-    } catch (error) {
+    } catch (error: any) {
         console.error(error);
-        alert(`Error changing password: ${error}`);
+        alert(`Error changing password: ${error.message || error}`);
     }
 };

@@ -10,10 +10,15 @@ export const getCards = async () => {
 }
 
 export const saveCard = async (card: Card) => {
+    try{
     const user = auth.currentUser;
     if (!user) throw new Error("User not logged in");
     const response = await api.post("/Card", { ...card, userId: user.uid });
     return response.data;
+    } catch (error) {
+        console.log("Error saving card", error);
+    }
+    
 }
 
 export const deleteCard = async (id: string) => {
