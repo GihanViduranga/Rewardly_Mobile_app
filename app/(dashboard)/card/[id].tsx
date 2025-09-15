@@ -62,6 +62,7 @@ const CardFormScreen = () => {
 
             if (duplicate) {
                 Alert.alert('Error', 'Card number already exists!');
+                cardData.number = '';
                 return;
             }
 
@@ -108,7 +109,7 @@ const CardFormScreen = () => {
                 <View>
                     <Text className="text-white text-xs opacity-80">Card Name</Text>
                     <Text className="text-white text-xl font-bold mt-1">
-                    {cardData.name || 'Your Name'}
+                    {cardData.name || 'Card Name'}
                     </Text>
                 </View>
                 <Ionicons name="card" size={32} color="white" />
